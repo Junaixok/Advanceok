@@ -1,0 +1,151 @@
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App with Ads</title>
+    
+    <!-- Monetag Script -->
+    <script src="//doodiwom.com/vignette.min.js" data-zone="8552636" data-sdk="show_8552636"></script>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            padding: 20px;
+            margin: 0;
+            overflow: hidden; /* স্ক্রোলিং বন্ধ করা */
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            animation: fadeIn 1s; /* ফেড ইন অ্যানিমেশন */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: slideIn 0.8s forwards; /* স্লাইড ইন অ্যানিমেশন */
+            opacity: 0; /* শুরুতে অদৃশ্য */
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        button {
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%; /* বোতামের প্রস্থ */
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-5px) scale(1.05); /* বোতামের হোভার অ্যানিমেশন */
+        }
+        button:active {
+            transform: translateY(0) scale(1); /* বোতামের ক্লিক অ্যানিমেশন */
+        }
+        .square {
+            width: 100%; /* স্কোয়ারটির প্রস্থ */
+            height: 200px; /* স্কোয়ারটির উচ্চতা */
+            background-color: #28a745; /* স্কোয়ারটির রঙ */
+            margin: 0 auto; /* স্কোয়ারটিকে কেন্দ্রের দিকে নিয়ে আসা */
+            border-radius: 10px; /* কিছু কোণার জন্য বৃত্তাকার প্রভাব */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .square:hover {
+            transform: scale(1.05); /* স্কোয়ারের হোভার ইফেক্ট */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* স্কোয়ারের হোভার শ্যাডো */
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Telegram Mini App</h1>
+
+    <div class="container">
+        <!-- স্কোয়ার ডিজাইন -->
+        <div class="square">Square</div>
+        
+        <div class="button-container">
+            <button id="showAdButton1">Show Ad 1</button>
+            <button id="showAdButton2">Show Ad 2</button>
+            <button id="showAdButton3">Show Ad 3</button>
+            <button id="showUNLMButton">UNLM</button>
+            <button id="showJunaidButton">JUNAID</button> <!-- JUNAID বোতাম যোগ করা হলো -->
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Click the buttons above to see ads.</p>
+    </div>
+
+    <script>
+        let adInterval; // বিজ্ঞাপন প্রদর্শনের জন্য ইন্টারভ্যাল
+
+        // বিজ্ঞাপন দেখানোর ফাংশন
+        function adCode() {
+            console.log(`Attempting to show ad...`);
+            show_8552636().then(() => { // 8552636 কোড ব্যবহার করা হচ্ছে
+                console.log(`Ad shown successfully.`);
+            }).catch((error) => {
+                console.error(`Error displaying ad:`, error);
+            });
+        }
+
+        // JUNAID বোতাম ক্লিক করার জন্য ইভেন্ট হ্যান্ডলার
+        document.getElementById('showJunaidButton').addEventListener('click', () => {
+            console.log('JUNAID button clicked. Starting auto ads...');
+            // যদি ইন্টারভ্যাল চালু থাকে, তবে সেটি বন্ধ করুন
+            clearInterval(adInterval);
+            // প্রতি 16 সেকেন্ড পর পর বিজ্ঞাপন দেখানোর জন্য ইন্টারভ্যাল সেট করুন
+            adInterval = setInterval(() => {
+                adCode(); // বিজ্ঞাপন দেখানোর জন্য adCode() ফাংশন কল করা হচ্ছে
+            }, 16000); // 16000 মিলে 16 সেকেন্ড
+        });
+
+        // বোতাম ক্লিক করার জন্য ইভেন্ট হ্যান্ডলার যুক্ত করুন
+        document.getElementById('showAdButton1').addEventListener('click', adCode);
+        document.getElementById('showAdButton2').addEventListener('click', adCode);
+        document.getElementById('showAdButton3').addEventListener('click', adCode);
+        
+        // UNLM বোতাম ক্লিক করার জন্য ইভেন্ট হ্যান্ডলার
+        document.getElementById('showUNLMButton').addEventListener('click', adCode);
+    </script>
+
+</body>
+</html>
+```
